@@ -1,48 +1,31 @@
 document.addEventListener('DOMContentLoaded', function () {
     const criteriaRadios = document.querySelectorAll('input[type="radio"]');
     const totalMarkInput = document.getElementById('total-mark');
-    const groupSelect = document.getElementById('group');
-    const jurySelect = document.getElementById('jury-name');
-    let groupPoster = document.getElementById('group-poster');
     const form = document.querySelector('form');
-    const resetButton = form.querySelector('button[type="reset"]');
     
-    // Event listener for radio buttons to update total mark
-    criteriaRadios.forEach(radio => {
-        radio.addEventListener('change', updateTotalMark);
-    });
-
-    // Event listener for group select to update group poster
-    groupSelect.addEventListener('change', updateGroupPoster);
-
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        sendDataToGoogleSheets();
-    });
-
+    // Add event listener for the reset button
+    const resetButton = form.querySelector('button[type="reset"]');
     resetButton.addEventListener('click', function (e) {
-        e.preventDefault(); // Prevent default reset behavior
+        e.preventDefault(); // Prevent the form from doing a full reset
 
-        // Store the current values of the jury name and group selection
-        const currentJury = jurySelect.value;
-        const currentGroup = groupSelect.value;
-
-        // Manually reset the form
-        form.reset();
-
-        // Re-assign the stored values back to the jury name and group selection
-        jurySelect.value = currentJury;
-        groupSelect.value = currentGroup;
-
-        // Reset only the criteria-related fields and total mark
+        // Uncheck all radio buttons (criteria)
         criteriaRadios.forEach(radio => {
             radio.checked = false;
         });
 
+        // Clear the total mark
         totalMarkInput.value = '';
 
-        // Optionally, trigger group poster update if needed after reset
-        updateGroupPoster();
+        // Keep the Jury Name and Group selections intact
+    });
+
+    criteriaRadios.forEach(radio => {
+        radio.addEventListener('change', updateTotalMark);
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        sendDataToGoogleSheets();
     });
 
     function updateTotalMark() {
@@ -54,75 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         totalMarkInput.value = totalMark;
-    }
-
-    function updateGroupPoster() {
-        const selectedGroup = groupSelect.value;
-        if (selectedGroup) {
-            const imagePath = `gambar/${selectedGroup}`;
-            const imageExtensions = ['jpg', 'png'];
-            const pdfExtension = 'pdf';
-            let found = false;
-
-            // Reset groupPoster to its default state before loading new content
-            groupPoster.src = '';
-            groupPoster.style.display = 'none';
-
-            // Function to handle image load success
-            const handleImageLoad = function (src) {
-                if (!found) {
-                    found = true;
-                    groupPoster.src = src;
-                    groupPoster.style.display = 'block';
-                    if (groupPoster.tagName.toLowerCase() !== 'img') {
-                        groupPoster.outerHTML = `<img id="group-poster" src="${src}" alt="Poster for ${selectedGroup}">`;
-                        groupPoster = document.getElementById('group-poster');
-                    }
-                }
-            };
-
-            // Check for image files
-            for (const ext of imageExtensions) {
-                const img = new Image();
-                img.src = `${imagePath}.${ext}?${new Date().getTime()}`; // Cache busting
-                img.onload = function () {
-                    handleImageLoad(this.src);
-                };
-            }
-
-            // Check for PDF file
-            const pdfUrl = `${imagePath}.${pdfExtension}?${new Date().getTime()}`; // Cache busting
-            fetch(pdfUrl)
-                .then(response => {
-                    if (response.ok && !found) {
-                        found = true;
-                        groupPoster.style.display = 'none';
-                        if (groupPoster.tagName.toLowerCase() !== 'iframe') {
-                            groupPoster.outerHTML = `<iframe id="group-poster" src="${pdfUrl}" width="100%" height="100%" frameborder="0"></iframe>`;
-                            groupPoster = document.getElementById('group-poster');
-                        } else {
-                            groupPoster.src = pdfUrl;
-                        }
-                    }
-                })
-                .catch(() => {
-                    if (!found) {
-                        groupPoster.src = 'gambar/default.jpg';
-                        groupPoster.style.display = 'block';
-                        if (groupPoster.tagName.toLowerCase() !== 'img') {
-                            groupPoster.outerHTML = `<img id="group-poster" src="gambar/default.jpg" alt="Default Poster">`;
-                            groupPoster = document.getElementById('group-poster');
-                        }
-                    }
-                });
-        } else {
-            groupPoster.src = 'gambar/default.jpg';
-            groupPoster.style.display = 'block';
-            if (groupPoster.tagName.toLowerCase() !== 'img') {
-                groupPoster.outerHTML = `<img id="group-poster" src="gambar/default.jpg" alt="Default Poster">`;
-                groupPoster = document.getElementById('group-poster');
-            }
-        }
     }
 
     function sendDataToGoogleSheets() {
@@ -159,8 +73,18 @@ document.addEventListener('DOMContentLoaded', function () {
             } else {
                 alert('Data saved successfully!');
             }
+
+            // Clear radio button selections after submission
+            criteriaRadios.forEach(radio => {
+                radio.checked = false;
+            });
+
+            // Clear total mark after submission
+            totalMarkInput.value = '';
+
         }).catch(error => {
             console.error('Error:', error);
         });
     }
 });
+
