@@ -39,14 +39,16 @@ document.addEventListener('DOMContentLoaded', function () {
         totalMarkInput.value = totalMark;
     }
 
-    function clearRadioButtonsAndTotalMark() {
-        // Clear all radio buttons
+    function clearFormFields() {
+        // Manually uncheck all radio buttons
         criteriaRadios.forEach(radio => {
             radio.checked = false;
         });
 
         // Clear total mark
         totalMarkInput.value = '';
+
+        // Keep Jury Name and Group selections intact (form.reset won't reset these fields)
     }
 
     function sendDataToGoogleSheets() {
@@ -78,11 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(data)
         }).then(() => {
-            // Clear the form's radio buttons and total mark
-            form.reset(); // This will reset all form elements
-
-            // Clear the total mark again (in case it's not reset properly)
-            totalMarkInput.value = '';
+            // Clear form fields (radio buttons and total mark) after submission
+            clearFormFields();
 
             // Display success message
             alert('Data saved successfully!');
