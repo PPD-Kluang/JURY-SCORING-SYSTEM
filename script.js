@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
         totalMarkInput.value = totalMark;
     }
 
-    function clearRadioButtons() {
+    function clearRadioButtonsAndTotalMark() {
+        // Clear all radio buttons
         criteriaRadios.forEach(radio => {
             radio.checked = false;
         });
@@ -77,10 +78,13 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(data)
         }).then(() => {
-            // Clear radio button selections after submission
-            clearRadioButtons();
+            // Clear the form's radio buttons and total mark
+            form.reset(); // This will reset all form elements
 
-            // Show success message
+            // Clear the total mark again (in case it's not reset properly)
+            totalMarkInput.value = '';
+
+            // Display success message
             alert('Data saved successfully!');
         }).catch(error => {
             console.error('Error:', error);
