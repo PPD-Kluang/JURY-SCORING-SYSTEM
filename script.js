@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Clear only radio buttons and total mark, but keep Jury Name and Group selections intact
             clearRadioButtonsAndTotalMark();
 
-            // Restore Jury Name and Group values (they should already be unchanged, but ensure they are kept)
+            // Ensure that Jury Name and Group selections remain unchanged after the form is submitted
             juryNameSelect.value = juryName;
             groupSelect.value = groupName;
 
