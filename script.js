@@ -39,6 +39,15 @@ document.addEventListener('DOMContentLoaded', function () {
         totalMarkInput.value = totalMark;
     }
 
+    function clearRadioButtons() {
+        criteriaRadios.forEach(radio => {
+            radio.checked = false;
+        });
+
+        // Clear total mark
+        totalMarkInput.value = '';
+    }
+
     function sendDataToGoogleSheets() {
         const juryName = document.getElementById('jury-name').value;
         const groupName = document.getElementById('group').value;
@@ -67,24 +76,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then(response => {
-            if (response.ok) {
-                alert('Data saved successfully!');
-            } else {
-                alert('Data saved successfully!');
-            }
-
+        }).then(() => {
             // Clear radio button selections after submission
-            criteriaRadios.forEach(radio => {
-                radio.checked = false;
-            });
+            clearRadioButtons();
 
-            // Clear total mark after submission
-            totalMarkInput.value = '';
-
+            // Show success message
+            alert('Data saved successfully!');
         }).catch(error => {
             console.error('Error:', error);
+            alert('There was an error saving the data.');
         });
     }
 });
-
