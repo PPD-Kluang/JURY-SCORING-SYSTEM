@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const criteriaRadios = document.querySelectorAll('input[type="radio"]');
     const totalMarkInput = document.getElementById('total-mark');
     const form = document.querySelector('form');
+    const juryNameSelect = document.getElementById('jury-name');
+    const groupSelect = document.getElementById('group');
     
     // Add event listener for the reset button
     const resetButton = form.querySelector('button[type="reset"]');
@@ -39,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         totalMarkInput.value = totalMark;
     }
 
-    function clearFormFields() {
+    function clearRadioButtonsAndTotalMark() {
         // Manually uncheck all radio buttons
         criteriaRadios.forEach(radio => {
             radio.checked = false;
@@ -47,13 +49,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Clear total mark
         totalMarkInput.value = '';
-
-        // Keep Jury Name and Group selections intact (form.reset won't reset these fields)
     }
 
     function sendDataToGoogleSheets() {
-        const juryName = document.getElementById('jury-name').value;
-        const groupName = document.getElementById('group').value;
+        const juryName = juryNameSelect.value; // Keep jury name
+        const groupName = groupSelect.value; // Keep group select
         const criteria = [];
         for (let i = 1; i <= 10; i++) {
             const selectedRadio = document.querySelector(`input[name="criteria${i}"]:checked`);
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 criteria.push(0);
             }
         }
-        const totalMark = document.getElementById('total-mark').value;
+        const totalMark = totalMarkInput.value;
 
         const data = {
             juryName,
@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(data)
         }).then(() => {
-            // Clear form fields (radio buttons and total mark) after submission
-            clearFormFields();
+            // Clear only the radio buttons and total mark after submission
+            clearRadioButtonsAndTotalMark();
 
             // Display success message
             alert('Data saved successfully!');
