@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Reset groupPoster to its default state before loading new content
             groupPoster.src = '';
             document.getElementById('juryName').innerText = 'Jury Name'; // juryname not reset
+            groupPoster.style.display = 'none';
 
             // Function to handle image load success
             const handleImageLoad = function (src) {
