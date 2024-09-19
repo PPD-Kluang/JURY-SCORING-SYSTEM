@@ -16,8 +16,14 @@ document.addEventListener('DOMContentLoaded', function () {
     groupSelect.addEventListener('change', updateGroupPoster);
 
     form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        sendDataToGoogleSheets();
+    e.preventDefault(); // Prevent form from submitting in the default way
+
+    // Call the function to send data to Google Sheets
+    sendDataToGoogleSheets();
+
+    // Clear the total mark and radio button selections after submitting
+    criteriaRadios.forEach(radio => {
+        radio.checked = false;  // Uncheck all radio buttons
     });
 
     resetButton.addEventListener('click', function (e) {
