@@ -4,26 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
     const juryNameSelect = document.getElementById('jury-name');
     const groupSelect = document.getElementById('group');
-    
-    // Add event listener for the reset button
-    const resetButton = form.querySelector('button[type="reset"]');
-    resetButton.addEventListener('click', function (e) {
-        e.preventDefault(); // Prevent the form from doing a full reset
-
-        // Uncheck all radio buttons (criteria)
-        criteriaRadios.forEach(radio => {
-            radio.checked = false;
-        });
-
-        // Clear the total mark
-        totalMarkInput.value = '';
-
-        // Keep the Jury Name and Group selections intact
-    });
-
-    criteriaRadios.forEach(radio => {
-        radio.addEventListener('change', updateTotalMark);
-    });
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -41,8 +21,12 @@ document.addEventListener('DOMContentLoaded', function () {
         totalMarkInput.value = totalMark;
     }
 
+    criteriaRadios.forEach(radio => {
+        radio.addEventListener('change', updateTotalMark);
+    });
+
     function clearRadioButtonsAndTotalMark() {
-        // Manually uncheck all radio buttons
+        // Uncheck all radio buttons
         criteriaRadios.forEach(radio => {
             radio.checked = false;
         });
@@ -52,9 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function sendDataToGoogleSheets() {
-        const juryName = juryNameSelect.value; // Keep jury name
-        const groupName = groupSelect.value; // Keep group select
+        // Store the current values of Jury Name and Group
+        const juryName = juryNameSelect.value;
+        const groupName = groupSelect.value;
         const criteria = [];
+
         for (let i = 1; i <= 10; i++) {
             const selectedRadio = document.querySelector(`input[name="criteria${i}"]:checked`);
             if (selectedRadio) {
@@ -80,8 +66,12 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(data)
         }).then(() => {
-            // Clear only the radio buttons and total mark after submission
+            // Clear only radio buttons and total mark, but keep Jury Name and Group selections intact
             clearRadioButtonsAndTotalMark();
+
+            // Restore Jury Name and Group values (they should already be unchanged, but ensure they are kept)
+            juryNameSelect.value = juryName;
+            groupSelect.value = groupName;
 
             // Display success message
             alert('Data saved successfully!');
