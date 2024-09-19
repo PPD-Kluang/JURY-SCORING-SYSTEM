@@ -4,16 +4,33 @@ document.addEventListener('DOMContentLoaded', function () {
     const groupSelect = document.getElementById('group');
     let groupPoster = document.getElementById('group-poster');
     const form = document.querySelector('form');
-
+    const resetButton = form.querySelector('button[type="reset"]');
+    
+    // Event listener for radio buttons to update total mark
     criteriaRadios.forEach(radio => {
         radio.addEventListener('change', updateTotalMark);
     });
 
+    // Event listener for group select to update group poster
     groupSelect.addEventListener('change', updateGroupPoster);
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         sendDataToGoogleSheets();
+    });
+
+    resetButton.addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default reset behavior
+
+        // Reset only the criteria-related fields
+        criteriaRadios.forEach(radio => {
+            radio.checked = false;
+        });
+
+        // Clear the total mark field
+        totalMarkInput.value = '';
+
+        // You may also want to reset any visual indicators here if needed
     });
 
     function updateTotalMark() {
@@ -37,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Reset groupPoster to its default state before loading new content
             groupPoster.src = '';
-            document.getElementById('jury-select').innerText = 'jury-name'; // juryname not reset
+            groupPoster.style.display = 'none';
 
             // Function to handle image load success
             const handleImageLoad = function (src) {
