@@ -6,8 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const groupSelect = document.getElementById('group');
 
     form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        sendDataToGoogleSheets();
+        e.preventDefault(); // Prevent page reload
+
+        // Save select values explicitly
+        const juryName = juryNameSelect.value;
+        const groupName = groupSelect.value;
+
+        sendDataToGoogleSheets(juryName, groupName);
     });
 
     function updateTotalMark() {
@@ -35,10 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         totalMarkInput.value = '';
     }
 
-    function sendDataToGoogleSheets() {
-        // Store the current values of Jury Name and Group
-        const juryName = juryNameSelect.value;
-        const groupName = groupSelect.value;
+    function sendDataToGoogleSheets(juryName, groupName) {
         const criteria = [];
 
         for (let i = 1; i <= 10; i++) {
@@ -66,10 +68,10 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(data)
         }).then(() => {
-            // Clear only radio buttons and total mark, but keep Jury Name and Group selections intact
+            // Clear only radio buttons and total mark
             clearRadioButtonsAndTotalMark();
 
-            // Ensure that Jury Name and Group selections remain unchanged after the form is submitted
+            // Manually reassign Jury Name and Group after clearing the form
             juryNameSelect.value = juryName;
             groupSelect.value = groupName;
 
