@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const criteriaRadios = document.querySelectorAll('input[type="radio"]');
     const totalMarkInput = document.getElementById('total-mark');
     const groupSelect = document.getElementById('group');
+    const jurySelect = document.getElementById('jury-name');
     let groupPoster = document.getElementById('group-poster');
     const form = document.querySelector('form');
     const resetButton = form.querySelector('button[type="reset"]');
@@ -22,15 +23,26 @@ document.addEventListener('DOMContentLoaded', function () {
     resetButton.addEventListener('click', function (e) {
         e.preventDefault(); // Prevent default reset behavior
 
-        // Reset only the criteria-related fields
+        // Store the current values of the jury name and group selection
+        const currentJury = jurySelect.value;
+        const currentGroup = groupSelect.value;
+
+        // Manually reset the form
+        form.reset();
+
+        // Re-assign the stored values back to the jury name and group selection
+        jurySelect.value = currentJury;
+        groupSelect.value = currentGroup;
+
+        // Reset only the criteria-related fields and total mark
         criteriaRadios.forEach(radio => {
             radio.checked = false;
         });
 
-        // Clear the total mark field
         totalMarkInput.value = '';
 
-        // You may also want to reset any visual indicators here if needed
+        // Optionally, trigger group poster update if needed after reset
+        updateGroupPoster();
     });
 
     function updateTotalMark() {
