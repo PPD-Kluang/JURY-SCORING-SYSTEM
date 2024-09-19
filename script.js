@@ -5,14 +5,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const juryNameSelect = document.getElementById('jury-name');
     const groupSelect = document.getElementById('group');
 
+    // Check if juryName and groupName were stored in localStorage
+    if (localStorage.getItem('juryName')) {
+        juryNameSelect.value = localStorage.getItem('juryName');
+    }
+    if (localStorage.getItem('groupName')) {
+        groupSelect.value = localStorage.getItem('groupName');
+    }
+
     form.addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevent page reload
+        e.preventDefault(); // Prevent the page reload
 
-        // Save select values explicitly
-        const juryName = juryNameSelect.value;
-        const groupName = groupSelect.value;
+        // Save current values to localStorage
+        localStorage.setItem('juryName', juryNameSelect.value);
+        localStorage.setItem('groupName', groupSelect.value);
 
-        sendDataToGoogleSheets(juryName, groupName);
+        sendDataToGoogleSheets();
     });
 
     function updateTotalMark() {
@@ -40,7 +48,9 @@ document.addEventListener('DOMContentLoaded', function () {
         totalMarkInput.value = '';
     }
 
-    function sendDataToGoogleSheets(juryName, groupName) {
+    function sendDataToGoogleSheets() {
+        const juryName = juryNameSelect.value;
+        const groupName = groupSelect.value;
         const criteria = [];
 
         for (let i = 1; i <= 10; i++) {
@@ -70,10 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }).then(() => {
             // Clear only radio buttons and total mark
             clearRadioButtonsAndTotalMark();
-
-            // Manually reassign Jury Name and Group after clearing the form
-            juryNameSelect.value = juryName;
-            groupSelect.value = groupName;
 
             // Display success message
             alert('Data saved successfully!');
