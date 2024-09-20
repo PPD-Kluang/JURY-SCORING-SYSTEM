@@ -103,12 +103,13 @@ body {
 text-align: center;
 }
 
+
 .footer {
     background-color: #8200E6;
     color: white;
     text-align: center;
-    padding: 9px 0;
-    font-size: 20px;
+    padding: 5px 0;
+    font-size: 10px;
     width: 100%;
     position: fixed;
     bottom: 0;
