@@ -138,10 +138,3 @@ body {
 .form-actions button[type="reset"]:hover {
     opacity: 0.8;
 }
-
-.submitted-marks {
-    background-color: #FFFFFF;
-    padding: 15px;
-    border: 1px solid #ccc;
-    margin-top: 20px;
-}
