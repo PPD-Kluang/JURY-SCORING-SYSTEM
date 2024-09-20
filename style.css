@@ -16,18 +16,18 @@ body {
     background-color: #8200E6;
     color: white;
     text-align: center;
-    padding: 9px 0;
-    font-size: 20px;
+    padding: 0.5px 0;
+    font-size: 5px;
 }
 
 .header h1 {
-    margin: 1;
-    font-size: 24px;
+    margin: 0.5;
+    font-size: 18px;
 }
 
 .content {
     flex: 1;
-    padding-bottom: 60px;
+    padding-bottom: 40px;
     box-sizing: border-box;
     display: flex;
 }
@@ -87,7 +87,7 @@ body {
 }
 
 .total-mark {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .total-mark label {
@@ -95,11 +95,11 @@ body {
 }
 
 .total-mark input {
-    width: 100px;
-    padding: 8px;
+    width: 80px;
+    padding: 3px;
     margin-top: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
 .footer {
@@ -118,7 +118,7 @@ body {
 .form-actions button[type="submit"] {
     background-color: green;
     color: white;
-    padding: 10px 20px;
+    padding: 6px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -128,7 +128,7 @@ body {
 .form-actions button[type="reset"] {
     background-color: red;
     color: white;
-    padding: 10px 20px;
+    padding: 6px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -137,4 +137,11 @@ body {
 .form-actions button[type="submit"]:hover,
 .form-actions button[type="reset"]:hover {
     opacity: 0.8;
+}
+
+.submitted-marks {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
 }
