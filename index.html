@@ -144,7 +144,7 @@
 
 		<form>
                           <div class="total-mark">
-                        <label>Jumlah Markah :</label>
+                        <label>Jumlah:</label>
                         <input type="text" id="total-mark" readonly>
                     </div>
 
@@ -162,7 +162,7 @@
 		
        <!-- Submitted Marks Display -->
                 <div class="submitted-marks" id="submittedMarks" style="display: none;">
-                    <h3>Senarai Penilaian:</h3>
+                    <h4> Senarai Penilaian:</h4>
                     <ul id="evaluationsList"></ul>
                 </div>
             </div>
@@ -196,13 +196,15 @@
             // Add the evaluation (group + mark) to the evaluations list
             const evaluationsList = document.getElementById("evaluationsList");
             const listItem = document.createElement("li");
-            listItem.innerText = `${selectedGroup} (Jumlah Markah = ${totalMark}/50)`;
+            listItem.innerText = `${selectedGroup} (Markah = ${totalMark*2}%)`;
             evaluationsList.appendChild(listItem);
 
             // Show the submitted marks section
             document.getElementById("submittedMarks").style.display = "block";
         });
 </script>
+
+
 
 </body>
 </html>
