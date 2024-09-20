@@ -215,3 +215,31 @@ document.getElementById("scoringForm").addEventListener("submit", function(event
         });
     }
 });
+
+function updateTotalMark() {
+    let totalMark = 0;
+    const maxMark = 50; // Jumlah markah penuh, boleh ubah jika markah penuh berbeza
+
+    // Kira jumlah markah berdasarkan kriteria yang dipilih
+    for (let i = 1; i <= 10; i++) {
+        const selectedRadio = document.querySelector(`input[name="criteria${i}"]:checked`);
+        if (selectedRadio) {
+            totalMark += parseInt(selectedRadio.value);
+        }
+    }
+
+    // Set nilai markah keseluruhan
+    totalMarkInput.value = totalMark;
+
+    // Kira peratusan berdasarkan jumlah markah penuh
+    const percentage = (totalMark / maxMark) * 100;
+
+    // Paparkan peratusan dalam elemen HTML
+    document.getElementById('percentageDisplay').innerText = `Peratus: ${percentage.toFixed(2)}%`;
+}
+
+// Hubungkan fungsi ini dengan event listener jika radio button berubah
+criteriaRadios.forEach(radio => {
+    radio.addEventListener('change', updateTotalMark);
+});
+
