@@ -62,7 +62,7 @@ body {
 }
 
 .jury-select select, .group-select select {
-    width: 100%;
+    width: 50%;
     padding: 8px;
     margin-top: 5px;
     border: 1px solid #ccc;
@@ -100,6 +100,7 @@ body {
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+text-align: center;
 }
 
 .footer {
@@ -123,6 +124,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin-right: 10px;
+ margin-top: 10px;
 }
 
 .form-actions button[type="reset"] {
@@ -132,9 +134,18 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+ margin-top: 10px;
 }
 
 .form-actions button[type="submit"]:hover,
 .form-actions button[type="reset"]:hover {
     opacity: 0.8;
+}
+
+.submitted-marks {
+    background-color: #FFFFFF;
+	font-size:15px;
+white-space: nowrap; 
+    padding: 10px;
+    border: 1px solid #ccc;
 }
